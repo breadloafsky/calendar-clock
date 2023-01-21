@@ -1,2 +1,10 @@
-<h1>Sample</h1>
-<p>test</p>
+<script>
+    import Watch from "../components/Watch.svelte";
+</script>
+
+
+<section>
+	<div style="display: flex; justify-content: center;">
+		<Watch/>
+	</div>
+</section>
