@@ -12,9 +12,10 @@
 
     interface Dial {
         name:string;    //  the name of the dial
-        color:string;
+        color?:string;
         r1:number;
         r2:number;
+        total:number;
         sections:Section[];
     };
 
@@ -23,31 +24,54 @@
 
     function init(){
         //  create seconds dial
-        let seconds= <Dial>{
-            name:"Seconds",
-            r1:18,
-            r2:30,
-        };
-        let offset = 0;
-        let total = 60;
-        seconds.sections = [...Array(60).keys()].map(a=> {
- 
-            let step = 1;
-            let section = <Section>{
-                name: a, 
-                start: ((offset)/total) * 360,
-                end: ((step+offset)/total) * 360,
-                color:"cornflowerblue"
-            };
-            offset += step;
-            return section;
+     
+        dials.push(<Dial>{
+            name:"seconds",
+            r1:15,
+            r2:20,
+            total:60,
+            color:"aqua",
         });
-        dials.push(seconds);
+        dials.push(<Dial>{
+            name:"minutes",
+            r1:20,
+            r2:25,
+            total:60,
+            color:"cornflowerblue",
+        });
+        dials.push(<Dial>{
+            name:"hours",
+            r1:25,
+            r2:30,
+            total:24,
+            color:"dodgerblue",
+        });
+        
+
+
+        dials.forEach(d => {
+            let offset = 0;
+            d.sections =  [...Array(d.total).keys()].map(a=> {
+                let step = 1;
+                let section = <Section>{
+                    name: a+1, 
+                    start: ((offset)/d.total) * 360,
+                    end: ((step+offset)/d.total) * 360,
+                    color:d.color
+                };
+                offset += step;
+                return section;
+            });
+        });
+
+        
+        
     }
 
     let dialPos = {
         seconds:0,
-        minutes:0
+        minutes:0,
+        hours:0,
     }
     
 
@@ -55,10 +79,14 @@
     {
         const d = new Date();
         let milliseconds = d.getMilliseconds();
-        let seconds = d.getSeconds();
+        let seconds = d.getSeconds() + milliseconds/1000;
+        let minutes = d.getMinutes() + seconds/60;
+        let hours = d.getHours() + minutes/60;
 
 
-        dialPos.seconds = ((seconds + milliseconds/1000) / 60) * 360,
+        dialPos.seconds = (seconds/ 60) * 360;
+        dialPos.minutes = (minutes/60 ) * 360;
+        dialPos.hours = (hours/24 ) * 360;
         setTimeout(updateTime, 10);
     }
     init();
@@ -73,13 +101,20 @@
             {#each dial.sections as section, i}
                 <path
                     d={svgFunctions.arc( dial.r1, dial.r2 , section.end-section.start)} 
-                    style="stroke:white;stroke-width:0.1%; fill:{section.color}; {(section.start < dialPos.seconds) ?"" : "filter: saturate(22%);"}"
-                    transform={` translate(50 50)  rotate(${ section.start + 180 - dialPos.seconds}) `}     
+                    style="stroke:white;stroke-width:0.1%; fill:{section.color}; 
+                    {
+                    (section.start < dialPos[dial.name]) ?
+                     (section.end < dialPos[dial.name] ?
+                      "" 
+                        : "filter: saturate(60%)")
+                        : "filter: saturate(22%);"
+                    }"
+                    transform={` translate(50 50)  rotate(${ section.start + 180 - dialPos[dial.name]}) `}     
                 />
                 <text
                     class="slice-text"
-                    x={ Math.cos(((section.start+section.end + 360 + 180)/2-dialPos.seconds)* (Math.PI/180)) *(dial.r1 + dial.r2)/2}
-                    y={ Math.sin(((section.start+section.end + 360 + 180)/2-dialPos.seconds)* (Math.PI/180)) *(dial.r1 + dial.r2)/2}
+                    x={ Math.cos(((section.start+section.end + 360 + 180)/2-dialPos[dial.name])* (Math.PI/180)) *(dial.r1 + dial.r2)/2}
+                    y={ Math.sin(((section.start+section.end + 360 + 180)/2-dialPos[dial.name])* (Math.PI/180)) *(dial.r1 + dial.r2)/2}
                     transform={`translate(50 50)`}
                     dominant-baseline="middle" 
                     text-anchor="middle"
