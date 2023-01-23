@@ -1,5 +1,5 @@
 <script>
-    import Watch from "../components/Watch.svelte";
+    import Watch from "../components/Clock.svelte";
 </script>
 
 
