@@ -1,10 +1,16 @@
 <script>
-    import Watch from "../components/Clock.svelte";
+    import Main from "../components/Main.svelte";
 </script>
 
 
 <section>
 	<div style="display: flex; justify-content: center;">
-		<Watch/>
+		<Main/>
 	</div>
 </section>
+
+<style>
+    :global(body) {
+		margin: 0%; 
+    }
+</style>
