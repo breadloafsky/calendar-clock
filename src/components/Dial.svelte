@@ -16,7 +16,7 @@
         
 <path
     
-    d={svgFunctions.arc( dial.r1 + (dial.r2-dial.r1)/5, dial.r2 - (dial.r2-dial.r1)/5, currentValue )} 
+    d={svgFunctions.arc( dial.r1 , dial.r2, currentValue )} 
     style={`stroke-width:0.1%; fill:${dial.color}; filter:opacity(100%);`}
     
     transform={` translate(50 50)  rotate(${ 180 - currentValue }) `}     
@@ -25,14 +25,19 @@
 
 <g transform={`rotate(${-currentValue},50,50)`}>
     {#each dial.sections as section}
+
+        <path
+            d={svgFunctions.dash(dial.r2, dial.r1)}  
+            transform={`translate(50 50) rotate(${section.start + 180}) `}
+            style="stroke-width: 0.1%; stroke:white;"
+        />
     
         <path
             id={`path-${dial.name+":"+section.id}`}
             d={svgFunctions.textArc((dial.r1+dial.r2)/2, section.end-section.start)}  
             transform={`translate(50 50) rotate(${section.start + 180 + (dial.labelPos == "start" ? (section.start-section.end)/2 : 0)}) `}
             fill=none
-        /> 
-    
+        />
         <text
             class="section-text"
             dominant-baseline="middle" 

@@ -14,6 +14,7 @@ export interface DialProps {
     sections:SectionProps[];
     fontSize:number;
     labelPos:"start"|"middle";
+    dashSize:number;
     onMouseMove(e):Function;
 };
 

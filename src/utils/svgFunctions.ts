@@ -23,12 +23,17 @@ export const svgFunctions = {
 
 
         path += `M ${0} ${radius} `
-        path += `A ${radius} ${radius}, 0, ${angle >= 180 ? 1 : 0}, 1, ${Math.sin(rad)*radius} ${Math.cos(rad)*radius}`;
+        path += `A ${radius} ${radius}, 0, ${angle >= 180 ? 1 : 0}, 1, ${Math.sin(rad)*radius} ${Math.cos(rad)*radius} `;
         return path;
     },
-    arcLength:function(radius, angle)
+    arcLength:function(radius:number, angle:number)
     {
         return  radius * angle * (Math.PI/180);        
+    },
+    dash:function(innerRadius:number, radius:number)
+    {
+        return `M ${0} ${radius} ` +
+        `L ${0} ${innerRadius} z` ;
     }
 }; 
 

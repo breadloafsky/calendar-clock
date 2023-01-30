@@ -30,7 +30,7 @@
         dialPos.dayInterval = dialPos.hours;
         dialPos.daysInMonth = (d.getDate()-1 + dialPos.hours)/daysInMonth;
         dialPos.daysInWeek = dialPos.daysInMonth;
-        dialPos.monthsInYear = (dateFunctions.dayOfTheYear()+dialPos.hours)/dateFunctions.daysInYear(d.getFullYear());
+        dialPos.monthsInYear = (dateFunctions.dayOfTheYear()-1 + dialPos.hours)/dateFunctions.daysInYear(d.getFullYear());
 
         Object.entries(dialPos).forEach(([k,p]) =>{
             dialPos[k] =Math.round(800 * (p * 360))/800;

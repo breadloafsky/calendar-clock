@@ -14,7 +14,7 @@
         time.seconds = <DialProps>{
             name:"seconds",
             r1:15,
-            r2:18,
+            r2:17,
             total:60,
             color:"lightsteelblue",
             fontSize:7,
@@ -23,7 +23,7 @@
         time.minutes = <DialProps>{
             name:"minutes",
             r1:18,
-            r2:21,
+            r2:20,
             total:60,
             color:"cornflowerblue",
             fontSize:8,
@@ -32,7 +32,7 @@
         time.hours = <DialProps>{
             name:"hours",
             r1:21,
-            r2:24,
+            r2:23,
             total:24,
             color:"dodgerblue",
             fontSize:10,
@@ -41,10 +41,10 @@
         time.dayInterval = <DialProps>{
             name:"dayInterval",
             r1:24,
-            r2:26,
+            r2:25,
             total:2,
             fontSize:9,
-            labelPos:"start",
+            labelPos:"middle",
         };
         
         Object.entries<DialProps>(time).forEach( ([k, d] ) => {

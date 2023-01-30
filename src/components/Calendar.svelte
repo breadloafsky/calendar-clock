@@ -20,7 +20,7 @@
         calendar.daysInMonth = <DialProps>{
             name:"daysInMonth",
             r1:26,
-            r2:30,
+            r2:29,
             total: numberOfDays,     
             fontSize:10,
             color:"orange",
@@ -29,7 +29,7 @@
         calendar.daysInWeek = <DialProps>{
             name:"daysInWeek",
             r1:30,
-            r2:32,
+            r2:31,
             total: numberOfDays,     
             fontSize:9,
             labelPos:"middle",
@@ -72,7 +72,7 @@
         let monthsInYear = <DialProps>{
             name:"monthsInYear",
             r1:32,
-            r2:36,
+            r2:35,
             total: 12,     
             fontSize:10,
             color:"darkorange",
