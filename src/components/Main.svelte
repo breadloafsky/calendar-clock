@@ -13,6 +13,7 @@
         seconds:0,
         minutes:0,
         hours:0,
+        dayInterval:0,
         daysInWeek:0,
         daysInMonth:0,
         monthsInYear:0,
@@ -26,6 +27,7 @@
         dialPos.seconds = (d.getSeconds() + dialPos.milliseconds)/60;
         dialPos.minutes = (d.getMinutes() + dialPos.seconds)/60;
         dialPos.hours =  (d.getHours() + dialPos.minutes)/24;
+        dialPos.dayInterval = dialPos.hours;
         dialPos.daysInMonth = (d.getDate()-1 + dialPos.hours)/daysInMonth;
         dialPos.daysInWeek = dialPos.daysInMonth;
         dialPos.monthsInYear = (dateFunctions.dayOfTheYear()+dialPos.hours)/dateFunctions.daysInYear(d.getFullYear());
@@ -42,8 +44,9 @@
 
 <div class="svg-container">
      <svg viewBox="0 0 100 100" class="svg-content" >
-        <Calendar dialPos={dialPos}/>
-         <Clock dialPos={dialPos}/> 
+     
+        <Calendar dialPos={dialPos}/>  
+        <Clock dialPos={dialPos}/> 
     </svg> 
     
 </div>

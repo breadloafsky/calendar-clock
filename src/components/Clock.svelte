@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import type {DialProps, SectionProps, DialPos} from "../types";
-    import Section from "./Section.svelte";
+    import Dial from "./Dial.svelte";
     
     let dials : { [key: string]: DialProps } = {};
 
@@ -18,6 +18,7 @@
             total:60,
             color:"lightsteelblue",
             fontSize:7,
+            labelPos:"start",
         };
         time.minutes = <DialProps>{
             name:"minutes",
@@ -26,6 +27,7 @@
             total:60,
             color:"cornflowerblue",
             fontSize:8,
+            labelPos:"start",
         };
         time.hours = <DialProps>{
             name:"hours",
@@ -34,17 +36,32 @@
             total:24,
             color:"dodgerblue",
             fontSize:10,
+            labelPos:"start",
+        };
+        time.dayInterval = <DialProps>{
+            name:"dayInterval",
+            r1:24,
+            r2:26,
+            total:2,
+            fontSize:9,
+            labelPos:"start",
         };
         
         Object.entries<DialProps>(time).forEach( ([k, d] ) => {
             let offset = 0;
+            let color = d.color;
+            
+
             d.sections =  [...Array(d.total).keys()].map((a,i)=> {
+                let name = k == "dayInterval" ? ["AM","PM"][i] : a+"";
+                
+
                 let step = 1;
                 let section = <SectionProps>{
-                    name: a+"",
+                    name: name,
                     start: ((offset)/d.total) * 360,
                     end: ((step+offset)/d.total) * 360,
-                    color:d.color,
+                    color:color,
                     id:i,
                 };
                 offset += step;
@@ -61,14 +78,7 @@
 
 
 {#each Object.entries(dials) as [k, dial]  }
-    {#each dial.sections as section, i}
-        <Section sectionType="default" section={section} dial={dial} currentValue={dialPos[dial.name]} />
-        
-        {#if section.start < dialPos[dial.name] && section.end > dialPos[dial.name] && ! dial.hideProgress}
-            <!-- show progress of the current section -->
-            <Section sectionType="progress" section={section} dial={dial} currentValue={dialPos[dial.name]} />
-        {/if}
-    {/each}
+    <Dial sectionType="default" dial={dial} currentValue={dialPos[dial.name]} />
 {/each}
 
 

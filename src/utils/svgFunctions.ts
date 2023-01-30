@@ -23,7 +23,7 @@ export const svgFunctions = {
 
 
         path += `M ${0} ${radius} `
-        path += `A ${radius} ${radius}, 0, ${angle >= 180 ? 1 : 0}, 1, ${Math.sin(rad)*radius} ${Math.cos(rad)*radius} `;
+        path += `A ${radius} ${radius}, 0, ${angle >= 180 ? 1 : 0}, 1, ${Math.sin(rad)*radius} ${Math.cos(rad)*radius}`;
         return path;
     },
     arcLength:function(radius, angle)

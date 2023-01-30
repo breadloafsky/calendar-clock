@@ -3,16 +3,12 @@
 <script lang="ts">
     import { dateFunctions } from "../utils/dateFunctions";
     import type {DialProps, SectionProps, DialPos} from "../types";
-    import Section from "./Section.svelte";
+    import Dial from "./Dial.svelte";
     
 
     let dials : { [key: string]: DialProps } = {};
 
-    let monthsColors = [...Array(12).keys()].map((a,i)=> `hsl(${i * 360 / 12}, 60%, 70%)`);
-
     export let dialPos :DialPos;
-    
-
   
     //  initialize dials
     function initDays() {
@@ -27,41 +23,39 @@
             r2:30,
             total: numberOfDays,     
             fontSize:10,
+            color:"orange",
+            labelPos:"middle",
         };
         calendar.daysInWeek = <DialProps>{
             name:"daysInWeek",
             r1:30,
             r2:32,
             total: numberOfDays,     
-            fontSize:10,
-            hideProgress:true,
+            fontSize:9,
+            labelPos:"middle",
         };
         Object.entries<DialProps>(calendar).forEach( ([k, d] ) => {
 
             let offset = 0;
             date = new Date(date.getFullYear(), date.getMonth(), 1);
 
+       
+
             d.sections =  [...Array(d.total).keys()].map((a,i)=> {
                 let step = 1;
                 let name = a+1+"";
-                let color = d.color;
-
+                
                 if(k == "daysInWeek")
-                {
                     name = ["Mo","Tu","We","Th","Fr","Sa","Su"][(offset+6)%7];
-                    color =  ["Sa","Su"].includes(name) ? "darkgray" : "lightgray";
-                }
                 else
-                {
                     name = date.getDate()+"";
-                    color =  monthsColors[date.getMonth()];
-                }
+                
                 date.setDate(date.getDate() + 1);
                 let section = <SectionProps>{
                     name: name,
                     start: (offset/d.total) * 360,
                     end: ((step+offset)/d.total) * 360,
-                    color:color,
+                    color:d.color,
                     id:i,
                 };
                 offset += step;
@@ -81,21 +75,20 @@
             r2:36,
             total: 12,     
             fontSize:10,
+            color:"darkorange",
+            labelPos:"middle",
         };
     
         let offset = 0;
         date.setDate(date.getDate());
         monthsInYear.sections =  [...Array(monthsInYear.total).keys()].map((a,i)=> {
-
-
-            let step = new Date(date.getFullYear(), i, -1).getDate()+1;;
-            let name = a+1+"";
-            let color = monthsColors[i];
+            let step = new Date(date.getFullYear(), i + 1, -1).getDate()+1;;
+            let name = new Date(date.getFullYear(), i, 1).toLocaleString('default', { month: 'long' });;
             let section = <SectionProps>{
                 name: name,
                 start: (offset/daysInYear) * 360,
                 end: ((step+offset)/daysInYear) * 360,
-                color:color,
+                color:monthsInYear.color,
                 id:i,
             };
             offset += step;
@@ -114,14 +107,7 @@
 
 
 {#each Object.entries(dials) as [k, dial]  }
-    {#each dial.sections as section, i}
-        <Section sectionType="default" section={section} dial={dial} currentValue={dialPos[dial.name]} />
-        
-        {#if section.start < dialPos[dial.name] && section.end > dialPos[dial.name] && ! dial.hideProgress}
-            <!-- show progress of the current section -->
-            <Section sectionType="progress" section={section} dial={dial} currentValue={dialPos[dial.name]} />
-        {/if}
-    {/each}
+    <Dial sectionType="default" dial={dial} currentValue={dialPos[dial.name]} />
 {/each}
 
 
