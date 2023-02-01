@@ -5,7 +5,7 @@
     import Calendar from "./Calendar.svelte";
     import type {DialPos} from "../types";
     import { tweened, spring } from 'svelte/motion';
-	import { linear } from 'svelte/easing';
+	import { linear, bounceInOut } from 'svelte/easing';
     
     
     
@@ -29,9 +29,9 @@
             easing: linear
 	});
 
-    let expandAnim = spring(0, {
-        stiffness:0.4,
-        damping:0.1,
+    let expandAnim = tweened(0, {
+        duration: 80,
+        easing: linear
     });
     
 

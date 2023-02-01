@@ -90,7 +90,7 @@
 
             d.sections =  [...Array(d.total).keys()].map((a,i)=> {
                 let step = 1;
-                let name = a+1+"";
+                let name = a+"";
                 if(k == "dayInterval")
                     name = ["AM","PM"][i];
                 else if(k == "daysInWeek")
@@ -100,7 +100,7 @@
                     step = (dateUtils.daysInMonths()[i]/dateUtils.daysInYear())*12;
                     name = new Date(new Date().getFullYear(), i, 1).toLocaleString('default', { month: 'long' });
                 }
-                else
+                else if(k == "daysInMonth")
                     name = date.getDate()+"";
                 
                 date.setDate(date.getDate() + 1);

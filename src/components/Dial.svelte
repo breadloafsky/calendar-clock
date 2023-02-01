@@ -2,7 +2,7 @@
 
 <script lang="ts">
     import { svgFunctions } from "../utils/svgFunctions";
-    import type {DialProps, SectionProps} from "../types";
+    import type { DialProps } from "../types";
 
 
 
@@ -39,7 +39,7 @@
     {#each dial.sections as section}
 
         <path
-            d={svgFunctions.dash(r1*expandAnim + expandAnim*(r2-r1)/ (dial.labelPos == "start" ? 4 : 1), r1*expandAnim)}  
+            d={svgFunctions.dash(r1+ expandAnim*(r2-r1)/ (dial.labelPos == "start" ? 4 : 1), r1)}  
             transform={`translate(40 40) rotate(${section.start + 180}) `}
             style="stroke-width: 0.1%; stroke:white;"
         />
