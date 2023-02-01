@@ -8,14 +8,14 @@ export interface SectionProps{
 export interface DialProps {
     name:string;    //  the name of the dial
     color?:string;
-    r1:number;
-    r2:number;
+    r1:number[];
+    r2:number[];
     total:number;
     sections:SectionProps[];
     fontSize:number;
     labelPos:"start"|"middle";
     dashSize:number;
-    onMouseMove(e):Function;
+
 };
 
 export interface DialPos {
