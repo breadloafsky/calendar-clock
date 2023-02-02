@@ -83,11 +83,9 @@
         
         Object.entries<DialProps>(calendar).forEach( ([k, d] ) => {
             let offset = 0;
-            if(k == "daysInWeek")
-                date = new Date();
-            else
-                date = new Date(date.getFullYear(), date.getMonth(), 1);
-
+            
+            date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            
             d.sections =  [...Array(d.total).keys()].map((a,i)=> {
                 let step = 1;
                 let name = a+"";
@@ -97,7 +95,7 @@
                     name = ["Su","Mo","Tu","We","Th","Fr","Sa"][date.getDay()];
                 else if(k == "monthsInYear")
                 {
-                    step = (dateUtils.daysInMonths()[i]/dateUtils.daysInYear())*12;
+                    step = (dateUtils.daysInMonths()[i]/dateUtils.daysInYear()) * 12;
                     name = new Date(new Date().getFullYear(), i, 1).toLocaleString('default', { month: 'long' });
                 }
                 else if(k == "daysInMonth")
