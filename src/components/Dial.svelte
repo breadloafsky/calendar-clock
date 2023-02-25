@@ -2,13 +2,13 @@
 
 <script lang="ts">
     import { svgFunctions } from "../utils/svgFunctions";
-    import type { DialProps } from "../types";
-
+    import type { DialProps, SectionProps } from "../types";
 
 
     export let dial: DialProps;
     export let currentValue: number;
     export let expandAnim: number;
+
 
     function getRadius(r:number[], coeff:number)
     {
@@ -23,25 +23,34 @@
         r2 = getRadius(dial.r2,expandAnim);
     }
 
+    
+
+    let focus = false;
+
+    function setFocus(value:boolean){
+        focus= value;
+    }
+
 </script>
    
 
         
 <path
-    
     d={svgFunctions.arc( (r1 + r2)/2, currentValue )} 
-    
-    style={`stroke-width:${r2 - r1}; stroke:${dial.color};  fill:transparent; `}
+    style={`stroke-width:${r2 - r1}; stroke:${dial.color}; fill:transparent; `}
     transform={` translate(40 40)  rotate(${ 180 - currentValue }) `}     
 />
 
 <g transform={`rotate(${-currentValue},40,40)`}>
     {#each dial.sections as section}
 
-        <path
-            d={svgFunctions.dash(r1+ expandAnim*(r2-r1)/ (dial.labelPos == "start" ? 4 : 1), r1)}  
-            transform={`translate(40 40) rotate(${section.start + 180}) `}
-            style="stroke-width: 0.1%; stroke:white;"
+        <rect
+            width=0.2
+            height={ expandAnim*(r2-r1)/ (dial.labelPos == "start" ? 4 : 1)}
+            y={r1}
+            transform={`translate(40 ,40) rotate(${section.start + 180}) `}
+            fill="white"
+            style="stroke-width: 0.1%; stroke:black;"
         />
         {#if dial.name == "monthsInYear"}
             <path
@@ -69,7 +78,6 @@
             </text>
        
         {:else}
-
             <text
                 class="section-text"
                 text-anchor=middle 
@@ -90,14 +98,15 @@
     {/each}
 </g>
 
-
-
-
-
-        
-
-
-
+<circle
+    r={(r1 + r2)/2} 
+    style={`stroke-width:${r2 - r1}; stroke:${"white"};  `}
+    filter={`opacity(${focus ? 0.15 : 0})`}
+    transform={` translate(40 40) `}
+    fill=none
+    on:mouseenter={() => setFocus(true)}
+    on:mouseleave={() => setFocus(false)}
+/> 
 
 <style>
     .section-text{

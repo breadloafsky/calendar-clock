@@ -11,31 +11,47 @@
     export let dialPos :DialPos;
     export let expandAnim: number;
   
+    
     //  initialize dials
-    function initCalendar() {
+    export function initCalendar() {
         let date = new Date();
         let numberOfDays = dateUtils.daysInMonths()[date.getMonth()];
-
         let calendar : { [key: string]: DialProps } = {};
-
-        calendar.seconds = <DialProps>{
-            name:"seconds",
-            r1:[12,15],
-            r2:[14,17],
-            total:60,
-            color:"lightsteelblue",
-            fontSize:7,
-            labelPos:"start",
+        calendar.monthsInYear = <DialProps>{
+            name:"monthsInYear",
+            r1:[24,30],
+            r2:[26,33],
+            total: 12,     
+            fontSize:10,
+            color:"darkorange",
+            labelPos:"middle",
         };
-        calendar.minutes = <DialProps>{
-            name:"minutes",
-            r1:[15,18],
-            r2:[17,20],
-            total:60,
-            color:"cornflowerblue",
-            fontSize:8,
-            labelPos:"start",
+        calendar.daysInWeek = <DialProps>{
+            name:"daysInWeek",
+            r1:[23,27.8],
+            r2:[23,29],
+            total: numberOfDays,     
+            fontSize:9,
+            labelPos:"middle",
         };
+        calendar.daysInMonth = <DialProps>{
+            name:"daysInMonth",
+            r1:[21,25],
+            r2:[23,27.5],
+            total: numberOfDays,     
+            fontSize:10,
+            color:"orange",
+            labelPos:"middle",
+        };
+        calendar.dayInterval = <DialProps>{
+            name:"dayInterval",
+            r1:[20,23.3],
+            r2:[20,24.3],
+            total:2,
+            fontSize:9,
+            labelPos:"middle",
+        };
+        
         calendar.hours = <DialProps>{
             name:"hours",
             r1:[18,21],
@@ -45,45 +61,31 @@
             fontSize:10,
             labelPos:"start",
         };
-        calendar.dayInterval = <DialProps>{
-            name:"dayInterval",
-            r1:[20,23.3],
-            r2:[20,25],
-            total:2,
-            fontSize:9,
-            labelPos:"middle",
+        
+        calendar.minutes = <DialProps>{
+            name:"minutes",
+            r1:[15,18],
+            r2:[17,20],
+            total:60,
+            color:"cornflowerblue",
+            fontSize:8,
+            labelPos:"start",
         };
-        calendar.daysInMonth = <DialProps>{
-            name:"daysInMonth",
-            r1:[21,26],
-            r2:[23,29],
-            total: numberOfDays,     
-            fontSize:10,
-            color:"orange",
-            labelPos:"middle",
-        };
-        calendar.daysInWeek = <DialProps>{
-            name:"daysInWeek",
-            r1:[23,29.3],
-            r2:[23,31],
-            total: numberOfDays,     
-            fontSize:9,
-            labelPos:"middle",
-        };
-        calendar.monthsInYear = <DialProps>{
-            name:"monthsInYear",
-            r1:[24,32],
-            r2:[26,35],
-            total: 12,     
-            fontSize:10,
-            color:"darkorange",
-            labelPos:"middle",
+        
+        calendar.seconds = <DialProps>{
+            name:"seconds",
+            r1:[12,15],
+            r2:[14,17],
+            total:60,
+            color:"lightsteelblue",
+            fontSize:7,
+            labelPos:"start",
         };
 
         
         Object.entries<DialProps>(calendar).forEach( ([k, d] ) => {
             let offset = 0;
-            
+
             date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
             
             d.sections =  [...Array(d.total).keys()].map((a,i)=> {
@@ -112,13 +114,9 @@
                 return section;
             });
         });
-
         dials = {...dials, ...calendar};
     }
 
-    initCalendar();
-    
-    
 </script>
 
 
@@ -128,6 +126,50 @@
 {/each}
 
 
+<text
+    class="face-text"
+    text-anchor=middle 
+    dominant-baseline=middle
+    opacity={expandAnim}
+    font-size={18 + "%"}
+    fill="white"
+    stroke="black"    
+    stroke-width={16/40}
+    x = 40
+    y = {40-35}
+
+>{dialPos.year}</text> 
+
+<text
+    class="face-text"
+    text-anchor=middle 
+    dominant-baseline=middle
+    opacity={expandAnim}
+    font-size={0 + 16*expandAnim + "%"}
+    fill="white"
+    stroke="black"    
+    stroke-width={16/40}
+    x = 40
+    y = 40
+
+>{`${
+    [dialPos.hours*24,dialPos.minutes*60,dialPos.seconds*60]
+        .map(e => ("0"+Math.floor(e)).slice(-2) ).join(":")
+    }`}</text> 
 
 
+<style>
+    .face-text{
+        font-family: 'Verdana';
+        text-align: end;
+        pointer-events: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        paint-order: stroke;
+        stroke: #000000;
+        stroke-linecap: butt;
+        stroke-linejoin: round;
+        font-weight: 800;
+    }
+</style>
 

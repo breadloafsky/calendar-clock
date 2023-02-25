@@ -3,6 +3,7 @@ export interface SectionProps{
     start:number;       //  the start angle of the section
     end:number;         //  the end angle of the section
     id:number;
+ 
 };
 
 export interface DialProps {
@@ -27,4 +28,5 @@ export interface DialPos {
     daysInWeek:number,
     daysInMonth:number,
     monthsInYear:number;
+    year:number;
 };
