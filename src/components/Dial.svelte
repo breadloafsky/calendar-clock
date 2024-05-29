@@ -12,7 +12,7 @@
 
     function getRadius(r:number[], coeff:number)
     {
-        return r[0] + (r[1]-r[0])*expandAnim;
+        return r[0] + (r[1]-r[0])*coeff;
     }
 
     let r1 = 0;
